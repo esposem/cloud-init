@@ -196,34 +196,6 @@ def parse_authorized_keys(fnames):
     return contents
 
 
-def update_authorized_keys(old_entries, keys):
-    to_add = list([k for k in keys if k.valid()])
-    for i in range(0, len(old_entries)):
-        ent = old_entries[i]
-        if not ent.valid():
-            continue
-        # Replace those with the same base64
-        for k in keys:
-            if k.base64 == ent.base64:
-                # Replace it with our better one
-                ent = k
-                # Don't add it later
-                if k in to_add:
-                    to_add.remove(k)
-        old_entries[i] = ent
-
-    # Now append any entries we did not match above
-    for key in to_add:
-        old_entries.append(key)
-
-    # Now format them back to strings...
-    lines = [str(b) for b in old_entries]
-
-    # Ensure it ends with a newline
-    lines.append('')
-    return '\n'.join(lines)
-
-
 def users_ssh_info(username):
     pw_ent = pwd.getpwnam(username)
     if not pw_ent or not pw_ent.pw_dir:
