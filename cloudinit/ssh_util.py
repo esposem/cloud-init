@@ -180,6 +180,8 @@ class AuthKeyLineParser(object):
 
 def parse_authorized_keys(fnames):
     lines = []
+
+
     parser = AuthKeyLineParser()
     contents = []
     for fname in fnames:
